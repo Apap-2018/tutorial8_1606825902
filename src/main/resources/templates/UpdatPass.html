@@ -1,0 +1,135 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Update Password</title>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+<br>
+ <div class="row">
+        	<div class="col-md-6">
+        		<div class="card">
+        			<div class="card-header">
+        				Update Password
+        			</div>
+        			<div class="card-body">
+        				<form th:action="@{/user/updatePass}" name="myForm" method="post" onsubmit="return validateForm();">
+        					<div class="row form-group">
+        						<label class="col-sm-4"> Password Lama:</label>
+        						<input class="col-sm-8 form-control input-sm" type="password" name="oldPass"/>
+        					</div>
+        					<div class="row form-group">
+        						<label class="col-sm-4"> Password Baru:</label>
+        						<input class="col-sm-8 form-control input-sm" type="password" name="password" id="password"/>
+        					</div>
+        					<div class="row" id="validation">
+        						<div class="col-sm">
+        							<p><i class="fa fa-times" id="8char" style="color:#FF0004;"></i> Min 8 Characters Long</p>
+        						</div>
+        						<div class="col-sm">
+        							<p><i class="fa fa-times" id="ucase" style="color:#FF0004;"></i> At Least One Uppercase Letter</p>
+        						</div>
+        					</div>
+        					<div class="row" id="validation">
+        						<div class="col-sm">
+        							<p><i class="fa fa-times" id="lcase" style="color:#FF0004;"></i>  At Least One Lowercase Letter</p>
+        						</div>
+        						<div class="col-sm">
+        							<p><i class="fa fa-times" id="num" style="color:#FF0004;"></i> At Least One Number</p>
+        						</div>
+        					</div>
+        					<div class="row form-group">
+        						<label class="col-sm-4"> Konfirmasi Password Baru:</label>
+        						<input class="col-sm-8 form-control input-sm" type="password" name="confPass" id="confPass"/>
+        					</div>
+        					<div class="row" id="validation">
+        						<div class="col-sm">
+        							<p><i class="fa fa-times" id="pwmatch" style="color:#FF0004;"></i> Password Match</p>
+        						</div>
+        					</div>
+        					<div>
+        						<button type="submit" class="btn btn-primary"> Simpan</button>
+        					</div>
+        				</form>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+        <script type="text/javascript">
+        var kondisi= false;
+        $("input[type=password]").keyup(function(){
+            var ucase = new RegExp("[A-Z]+");
+        	var lcase = new RegExp("[a-z]+");
+        	var num = new RegExp("[0-9]+");
+        	
+        	if($("#password").val().length >= 8){
+        		$("#8char").removeClass("fa fa-times");
+        		$("#8char").addClass("fa fa-check");
+        		$("#8char").css("color","#00A41E");
+        		kondisi = true;
+        	}else{
+        		$("#8char").removeClass("fa fa-check");
+        		$("#8char").addClass("fa fa-times");
+        		$("#8char").css("color","#FF0004");
+        		kondisi = false;
+        	}
+        	
+        	if(ucase.test($("#password").val())){
+        		$("#ucase").removeClass("fa fa-times");
+        		$("#ucase").addClass("fa fa-check");
+        		$("#ucase").css("color","#00A41E");
+        		kondisi = true;
+        	}else{
+        		$("#ucase").removeClass("fa fa-check");
+        		$("#ucase").addClass("fa fa-times");
+        		$("#ucase").css("color","#FF0004");
+        		kondisi = false;
+        	}
+        	
+        	if(lcase.test($("#password").val())){
+        		$("#lcase").removeClass("fa fa-times");
+        		$("#lcase").addClass("fa fa-check");
+        		$("#lcase").css("color","#00A41E");
+        		kondisi = true;
+        	}else{
+        		$("#lcase").removeClass("fa fa-check");
+        		$("#lcase").addClass("fa fa-times");
+        		$("#lcase").css("color","#FF0004");
+        		kondisi = false;
+        	}
+        	if(num.test($("#password").val())){
+        		$("#num").removeClass("fa fa-times");
+        		$("#num").addClass("fa fa-check");
+        		$("#num").css("color","#00A41E");
+        		kondisi = true;
+        	}else{
+        		$("#num").removeClass("fa fa-check");
+        		$("#num").addClass("fa fa-times");
+        		$("#num").css("color","#FF0004");
+        		kondisi = false;
+        	}
+        	if(($("#password").val() == $("#confPass").val())&&$("#password").val() != ''){
+        		$("#pwmatch").removeClass("fa fa-times");
+        		$("#pwmatch").addClass("fa fa-check");
+        		$("#pwmatch").css("color","#00A41E");
+        		kondisi = true;
+        	}else{
+        		$("#pwmatch").removeClass("fa fa-check");
+        		$("#pwmatch").addClass("fa fa-times");
+        		$("#pwmatch").css("color","#FF0004");
+        		kondisi = false;
+        	}
+        });
+        function validateForm() {
+            if (kondisi == false) {
+                alert("Isi Password Sesuai Kriteria Yang Ada !!!!!");
+                return false;
+            }
+        }
+        </script>
+	</body>
+</html>

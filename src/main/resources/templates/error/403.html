@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Akses Ditolak</title>
+   	<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
+
+<body>
+    <h2>Kamu tidak memiliki otoritas untuk akses fitur ini</h2>
+    <table>
+  <tr>
+    <th>Role</th>
+    <th>Akses Fitur</th>
+  </tr>
+  <tr>
+    <td>PILOT</td>
+    <td>Lihat Daftar Penerbangan, Add Flight, Delete Flight, Update Flight</td>
+  </tr>
+  <tr>
+    <td>UMUM</td>
+    <td>Lihat Daftar Penerbangan</td>
+  </tr>
+  <tr>
+    <td>ADMIN</td>
+    <td>Add Pilot, View Pilot, Update Pilot, Delete Pilot</td>
+  </tr>
+</table>
+</body>
+
+</html>

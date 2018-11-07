@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Home</title>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+
+    <div class="container-fluid">
+        <h2 th:text=" 'Hello '+${#httpServletRequest.remoteUser}">Login As</h2>
+        <div class="row">
+        	<div class="col-md-6">
+				<a class="btn btn-primary" th:href="@{/user/updatePass}">Update Password</a>        
+        	</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Tambah Pilot
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Fitur untuk menambah pilot.</p>
+                        <a class="btn btn-primary" th:href="@{/pilot/add}">Tambah</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+        	<div class="col-md-6">
+        		<div class="card">
+        			<div class="card-header">
+        				Tambah User Baru
+        			</div>
+        			<div class="card-body">
+        				<form th:action="@{/user/addUser}" name="myForm" method="post" onsubmit="return validateForm();">
+        					<div class="row form-group">
+        						<label class="col-sm-4"> User Name</label>
+        						<input class="col-sm-8 form-control input-sm" type="text" name="username"/>
+        					</div>
+        					<div class="row form-group">
+        						<label class="col-sm-4"> Password:</label>
+        						<input class="col-sm-8 form-control input-sm" type="password" name="password" id="password"/>
+        					</div>
+        					<div class="row" id="validation">
+        						<div class="col-sm">
+        							<p><i class="fa fa-times" id="8char" style="color:#FF0004;"></i> Min 8 Characters Long</p>
+        						</div>
+        						<div class="col-sm">
+        							<p><i class="fa fa-times" id="ucase" style="color:#FF0004;"></i> At Least One Uppercase Letter</p>
+        						</div>
+        					</div>
+        					<div class="row" id="validation">
+        						<div class="col-sm">
+        							<p><i class="fa fa-times" id="lcase" style="color:#FF0004;"></i>  At Least One Lowercase Letter</p>
+        						</div>
+        						<div class="col-sm">
+        							<p><i class="fa fa-times" id="num" style="color:#FF0004;"></i> At Least One Number</p>
+        						</div>
+        					</div>
+        					<div class="row form-group">
+        						<label class="col-sm-4"> Role:</label>
+        						<input class="col-sm-8 form-control input-sm" type="text" name="role"/>
+        					</div>
+        					<div>
+        						<button type="submit" class="btn btn-primary"> Simpan</button>
+        					</div>
+        				</form>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Cari Pilot berdasarkan Nomor Lisensi
+                    </div>
+                    <form th:action="@{/pilot/view}" method="GET">
+                        <div class="card-body">
+                            <label for="licenseNumber">License Number:</label>
+                            <input type="text" name="licenseNumber" class="form-control" />
+                            <button type="submit" class="btn btn-primary">Cari</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+     <script type="text/javascript">
+        var kondisi= false;
+        $("input[type=password]").keyup(function(){
+            var ucase = new RegExp("[A-Z]+");
+        	var lcase = new RegExp("[a-z]+");
+        	var num = new RegExp("[0-9]+");
+        	
+        	if($("#password").val().length >= 8){
+        		$("#8char").removeClass("fa fa-times");
+        		$("#8char").addClass("fa fa-check");
+        		$("#8char").css("color","#00A41E");
+        		kondisi = true;
+        	}else{
+        		$("#8char").removeClass("fa fa-check");
+        		$("#8char").addClass("fa fa-times");
+        		$("#8char").css("color","#FF0004");
+        		kondisi = false;
+        	}
+        	
+        	if(ucase.test($("#password").val())){
+        		$("#ucase").removeClass("fa fa-times");
+        		$("#ucase").addClass("fa fa-check");
+        		$("#ucase").css("color","#00A41E");
+        		kondisi = true;
+        	}else{
+        		$("#ucase").removeClass("fa fa-check");
+        		$("#ucase").addClass("fa fa-times");
+        		$("#ucase").css("color","#FF0004");
+        		kondisi = false;
+        	}
+        	
+        	if(lcase.test($("#password").val())){
+        		$("#lcase").removeClass("fa fa-times");
+        		$("#lcase").addClass("fa fa-check");
+        		$("#lcase").css("color","#00A41E");
+        		kondisi = true;
+        	}else{
+        		$("#lcase").removeClass("fa fa-check");
+        		$("#lcase").addClass("fa fa-times");
+        		$("#lcase").css("color","#FF0004");
+        		kondisi = false;
+        	}
+        	if(num.test($("#password").val())){
+        		$("#num").removeClass("fa fa-times");
+        		$("#num").addClass("fa fa-check");
+        		$("#num").css("color","#00A41E");
+        		kondisi = true;
+        	}else{
+        		$("#num").removeClass("fa fa-check");
+        		$("#num").addClass("fa fa-times");
+        		$("#num").css("color","#FF0004");
+        		kondisi = false;
+        	}
+        });
+        function validateForm() {
+            if (kondisi == false) {
+                alert("Isi Password Sesuai Kriteria Yang Ada !!!!!");
+                return false;
+            }
+            else{
+            	return true;
+            }
+        }
+        </script>
+</body>
+
+</html>
